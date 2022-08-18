@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: $APP_WHOOGLE_SEARCH_IP
+      APP_PORT: $APP_WHOOGLE_SEARCH_PORT
+      PROXY_AUTH_ADD: "false"
+
+  web:
+    image: ceramicwhite/whoogle-search:v0.7.4-buster-slim@sha256:de9747bfd0af0a0d9606e8c713e3e29d08ca88e762fbf90476d32768160e3cb0
+    restart: on-failure
+    stop_grace_period: 1m
+    user: "927:927"
+    environment:
+      WHOOGLE_ALT_TW: $APP_NITTER_IP
+      WHOOGLE_ALT_YT: $APP_INVIDIOUS_IP
+      WHOOGLE_ALT_IG: $APP_BIBLIOGRAM_IP
+      WHOOGLE_ALT_RD: $APP_LIBREDDIT_IP
+      WHOOGLE_ALT_MD: $APP_SCRIBE_IP
+      WHOOGLE_ALT_TL: $APP_LINGVA_IP
+      WHOOGLE_ALT_IMG: $APP_RIMGO_IP
+      WHOOGLE_ALT_WIKI: $APP_WIKILESS_IP
+      WHOOGLE_ALT_IMDB: $APP_LIBREMDB_IP
+      WHOOGLE_ALT_QUORA: $APP_QUETRE_IP
+      EXPOSE_PORT: $APP_WHOOGLE_SEARCH_PORT
+      WHOOGLE_CONFIG_URL: ${DEVICE_HOSTNAME}:$APP_WHOOGLE_SEARCH_PORT
+      WHOOGLE_TOR_SERVICE: '1'
+      WHOOGLE_PROXY_LOC: "socks://$TOR_PROXY_IP:$TOR_PROXY_PORT"
+    networks:
+      default:
+        ipv4_address: $APP_WHOOGLE_SEARCH_IP

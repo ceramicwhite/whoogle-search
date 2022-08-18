@@ -1,5 +1,6 @@
 FROM python:3.10.6-slim-buster as builder
 
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     libxml2-dev \
@@ -14,13 +15,12 @@ RUN pip install --prefix /install --no-warn-script-location --no-cache-dir -r re
 
 FROM python:3.10.6-slim-buster
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update
+RUN apt-get install curl tor openrc -y
 
-RUN apt-get install curl openrc -y
 
-
-ARG DOCKER_USER=umbrel
-ARG DOCKER_USERID=1000
+ARG DOCKER_USER=whoogle
+ARG DOCKER_USERID=927
 ARG config_dir=/config
 RUN mkdir -p $config_dir
 RUN chmod a+w $config_dir
@@ -72,8 +72,8 @@ ENV CONFIG_VOLUME=$config_dir \
 WORKDIR /whoogle
 
 COPY --from=builder /install /usr/local
-#COPY misc/tor/torrc /etc/tor/torrc
-#COPY misc/tor/start-tor.sh misc/tor/start-tor.sh
+COPY misc/tor/torrc /etc/tor/torrc
+COPY misc/tor/start-tor.sh misc/tor/start-tor.sh
 COPY app/ app/
 COPY run .
 #COPY whoogle.env .
@@ -83,8 +83,7 @@ RUN adduser --disabled-password $DOCKER_USER -u $DOCKER_USERID
 #RUN addgroup $DOCKER_USER $DOCKER_USERID 
 
 # Fix ownership / permissions
-RUN chown -R ${DOCKER_USER}:${DOCKER_USER} /whoogle 
-#/var/lib/tor
+RUN chown -R ${DOCKER_USER}:${DOCKER_USER} /whoogle /var/lib/tor
 
 # Allow writing symlinks to build dir
 RUN chown $DOCKER_USERID:$DOCKER_USERID app/static/build
@@ -96,4 +95,4 @@ EXPOSE $EXPOSE_PORT
 HEALTHCHECK --interval=30s --timeout=5s \
     CMD curl -f http://localhost:${EXPOSE_PORT}/healthz || exit 1
 
-CMD ./run
+CMD misc/tor/start-tor.sh & ./run

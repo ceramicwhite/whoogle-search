@@ -1,11 +1,11 @@
 FROM python:3.11.0a5-alpine as builder
 
 RUN apk --update add \
-    build-base \
-    libxml2-dev \
-    libxslt-dev \
-    openssl-dev \
-    libffi-dev
+  build-base \
+  libxml2-dev \
+  libxslt-dev \
+  openssl-dev \
+  libffi-dev
 
 COPY requirements.txt .
 
@@ -48,26 +48,26 @@ ARG imdb_alt='farside.link/libremdb'
 ARG quora_alt='farside.link/quetre'
 
 ENV CONFIG_VOLUME=$config_dir \
-    WHOOGLE_URL_PREFIX=$url_prefix \
-    WHOOGLE_USER=$username \
-    WHOOGLE_PASS=$password \
-    WHOOGLE_PROXY_USER=$proxyuser \
-    WHOOGLE_PROXY_PASS=$proxypass \
-    WHOOGLE_PROXY_TYPE=$proxytype \
-    WHOOGLE_PROXY_LOC=$proxyloc \
-    WHOOGLE_DOTENV=$whoogle_dotenv \
-    HTTPS_ONLY=$use_https \
-    EXPOSE_PORT=$whoogle_port \
-    WHOOGLE_ALT_TW=$twitter_alt \
-    WHOOGLE_ALT_YT=$youtube_alt \
-    WHOOGLE_ALT_IG=$instagram_alt \
-    WHOOGLE_ALT_RD=$reddit_alt \
-    WHOOGLE_ALT_MD=$medium_alt \
-    WHOOGLE_ALT_TL=$translate_alt \
-    WHOOGLE_ALT_IMG=$imgur_alt \
-    WHOOGLE_ALT_WIKI=$wikipedia_alt \
-    WHOOGLE_ALT_IMDB=$imdb_alt \
-    WHOOGLE_ALT_QUORA=$quora_alt
+  WHOOGLE_URL_PREFIX=$url_prefix \
+  WHOOGLE_USER=$username \
+  WHOOGLE_PASS=$password \
+  WHOOGLE_PROXY_USER=$proxyuser \
+  WHOOGLE_PROXY_PASS=$proxypass \
+  WHOOGLE_PROXY_TYPE=$proxytype \
+  WHOOGLE_PROXY_LOC=$proxyloc \
+  WHOOGLE_DOTENV=$whoogle_dotenv \
+  HTTPS_ONLY=$use_https \
+  EXPOSE_PORT=$whoogle_port \
+  WHOOGLE_ALT_TW=$twitter_alt \
+  WHOOGLE_ALT_YT=$youtube_alt \
+  WHOOGLE_ALT_IG=$instagram_alt \
+  WHOOGLE_ALT_RD=$reddit_alt \
+  WHOOGLE_ALT_MD=$medium_alt \
+  WHOOGLE_ALT_TL=$translate_alt \
+  WHOOGLE_ALT_IMG=$imgur_alt \
+  WHOOGLE_ALT_WIKI=$wikipedia_alt \
+  WHOOGLE_ALT_IMDB=$imdb_alt \
+  WHOOGLE_ALT_QUORA=$quora_alt
 
 WORKDIR /whoogle
 
